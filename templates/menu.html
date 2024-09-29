@@ -25,22 +25,19 @@
     <!--========== HEADER ==========-->
     <header class="l-header" id="header">
         <nav class="nav bd-container">
-            <a href="#" class="nav__logo"><h1>Silver Leaf.</h1></a>
+            <a href="#" class="nav__logo"><h1>Thrift Pantry</h1></a>
 
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
-                    <li class="nav__item"><a href="{{ url_for('home_page' )}}" class="nav__link active-link">Home</a></li>
-                    <li class="nav__item"><a href="index.html#about" class="nav__link">About</a></li>
-                    <li class="nav__item"><a href="index.html#services" class="nav__link">Services</a></li>
+                    <li class="nav__item"><a href="#home" class="nav__link active-link">Discover</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link">Browse</a></li>
+                    <li class="nav__item"><a href="#services" class="nav__link">Delivery</a></li>
                     {% if current_user.is_authenticated %}
-                    <li class="nav__item"><a href="{{ url_for('logout') }}" class="nav__link">Log Out</a></li>
+                    <li class="nav__item"><a href="{{ url_for('logout') }}" class="nav__link">Sign Out</a></li>
                     {% else %}
-                    <li class="nav__item"><a href="{{ url_for('login_page') }}" class="nav__link">Log in</a></li>
-                    <li class="nav__item"><a href="{{ url_for('login_page') }}" class="nav__link">Register</a></li>
+                    <li class="nav__item"><a href="{{ url_for('login_page') }}" class="nav__link">Sign Up</a></li>
                     {% endif %}
-                    <!-- <li class="nav__item"><a href="index.html#contact" class="nav__link">Contact us</a></li> -->
-                    <li class="nav__item"><a href="{{ url_for('cart_page') }}" class="cart__button"><i class='bx bx-cart-alt'></i></a></li>
-
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
                     <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
                 </ul>
             </div>
@@ -49,18 +46,6 @@
                 <i class='bx bx-menu'></i>
             </div>
         </nav>
-        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{ message }}
-                </div>
-            {% endfor %}
-            {% endif %}
-        {% endwith %} -->
     </header>
     <!--========== HEADER ENDS ==========-->
 <!-- ========== MENU ==========-->
@@ -102,51 +87,50 @@
 <!-- ========== MENU ENDS ==========-->
 
 <!--========== FOOTER ==========-->
-<footer class="footer section bd-container">
-<div class="footer__container bd-grid">
-    <div class="footer__content">
-        <a href="#" class="footer__logo">Slver Leaf</a>
-        <span class="footer__description">Restaurant</span>
-        <div>
-            <a href="#" class="footer__social"><i class='bx bxl-facebook'></i></a>
-            <a href="#" class="footer__social"><i class='bx bxl-instagram'></i></a>
-            <a href="#" class="footer__social"><i class='bx bxl-twitter'></i></a>
-        </div>
-    </div>
+        <footer class="footer section bd-container">
+            <div class="footer__container bd-grid">
+                <div class="footer__content">
+                    <a href="#" class="footer__logo">Thrift Pantry</a>
+                    <span class="footer__description">Sustainable</span>
+                    <div>
+                        <a href="#" class="footer__social"><i class='bx bxl-facebook'></i></a>
+                        <a href="#" class="footer__social"><i class='bx bxl-instagram'></i></a>
+                        <a href="#" class="footer__social"><i class='bx bxl-twitter'></i></a>
+                    </div>
+                </div>
 
-    <div class="footer__content">
-        <h3 class="footer__title">Services</h3>
-        <ul>
-            <li><a href="menu.html" class="footer__link">Order Food</a></li>
-            <li><a href="table.html" class="footer__link">Table Reservation</a></li>
-            <li><a href="#" class="footer__link">Delivery</a></li>
-        </ul>
-    </div>
+                <div class="footer__content">
+                    <h3 class="footer__title">Services</h3>
+                    <ul>
+                        <li><a href="menu.html" class="footer__link">Browse</a></li>
+                        <li><a href="menu.html" class="footer__link">Order Food</a></li>
+                        <li><a href="#" class="footer__link">Delivery</a></li>
+                    </ul>
+                </div>
 
-    <div class="footer__content">
-        <h3 class="footer__title">Information</h3>
-        <ul>
-            <li><a href="#" class="footer__link">Event</a></li>
-            <li><a href="#" class="footer__link">Contact us</a></li>
-            <li><a href="#" class="footer__link">Privacy policy</a></li>
-            <li><a href="#" class="footer__link">Terms of services</a></li>
-        </ul>
-    </div>
+                <div class="footer__content">
+                    <h3 class="footer__title">Information</h3>
+                    <ul>
+                        <li><a href="#" class="footer__link">Event</a></li>
+                        <li><a href="#" class="footer__link">Contact us</a></li>
+                        <li><a href="#" class="footer__link">Privacy policy</a></li>
+                        <li><a href="#" class="footer__link">Terms of services</a></li>
+                    </ul>
+                </div>
 
-    <div class="footer__content">
-        <h3 class="footer__title">Address</h3>
-        <ul>
-            <li>Somewhere</li>
-            <li>Universe</li>
-            <li>999 - 888 - 777</li>
-            <li>silverleaf@gmail.com</li>
-        </ul>
-    </div>
-</div>
+                <div class="footer__content">
+                    <h3 class="footer__title">Address</h3>
+                    <ul>
+                        <li>Chennai, Tamil Nadu</li>
+                        <li>031-4281-7093</li>
+                        <li>chipnxv@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
 
-<p class="footer__copy">&#169; 2021 Group-37. All right reserved</p>
-</footer>
-<!--========== FOOTER ENDS HERE ==========-->
+            <p class="footer__copy">&#169; 2024. All rights reserved</p>
+        </footer>
+        <!--========== FOOTER ENDS ==========-->
 
 <!--========== SCROLL REVEAL ==========-->
 <script src="https://unpkg.com/scrollreveal"></script>

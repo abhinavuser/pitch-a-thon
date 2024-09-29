@@ -9,15 +9,14 @@ from sqlalchemy.sql import func
 
 # Initialize the app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///restaurant.db'
-app.config['SECRET_KEY'] = 'your_secret_key_here'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///restaurant.db'  # Your SQLite database
+app.config['SECRET_KEY'] = 'your_secret_key_here'  # Secret key for session management and CSRF protection
 
-# Database, bcrypt and login manager
+# Initialize extensions
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login_page'
-
 
 # User model
 class User(db.Model, UserMixin):
@@ -39,7 +38,6 @@ class User(db.Model, UserMixin):
     def password(self, plain_text_password):
         self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
 
-
 # Item model
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,7 +49,6 @@ class Item(db.Model):
     def __repr__(self):
         return f'Item({self.name}, {self.price})'
 
-
 # Flask Forms
 class RegisterForm(FlaskForm):
     username = StringField(label='Username', validators=[Length(min=2, max=30), DataRequired()])
@@ -62,29 +59,24 @@ class RegisterForm(FlaskForm):
     password2 = PasswordField(label='Confirm Password', validators=[EqualTo('password1'), DataRequired()])
     submit = SubmitField(label='Sign Up')
 
-
 class LoginForm(FlaskForm):
     username = StringField(label='Username', validators=[DataRequired()])
     password = PasswordField(label='Password', validators=[DataRequired()])
     submit = SubmitField(label='Sign In')
 
-
 class AddForm(FlaskForm):
     submit = SubmitField(label='Add')
-
 
 # User loader for flask-login
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 # Routes
 @app.route('/')
 @app.route('/home')
 def home_page():
     return render_template('index.html')
-
 
 @app.route('/menu', methods=['GET', 'POST'])
 @login_required
@@ -95,18 +87,16 @@ def menu_page():
         item_object = Item.query.filter_by(name=selected_item).first()
         if item_object:
             flash(f'You added {selected_item} to your cart!', category='success')
-            # Here, you could add code to store the item in the user's session/cart
         return redirect(url_for('menu_page'))
 
     if request.method == 'GET':
         items = Item.query.all()
         return render_template('menu.html', items=items, add_form=add_form)
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
-    forml = LoginForm()
-    form = RegisterForm()
+    forml = LoginForm()  # Login form
+    form = RegisterForm()  # Registration form
     if forml.validate_on_submit():
         attempted_user = User.query.filter_by(username=forml.username.data).first()
         if attempted_user and attempted_user.check_password_correction(attempted_password=forml.password.data):
@@ -114,16 +104,13 @@ def login_page():
             return redirect(url_for('home_page'))
         else:
             flash('Username or password is incorrect! Please try again.', category='danger')
-
     return render_template('login.html', forml=forml, form=form)
 
-
 @app.route('/logout')
-def logout_page():
+def logout():
     logout_user()
     flash('You have been logged out!', category='info')
     return redirect(url_for('home_page'))
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
@@ -139,17 +126,14 @@ def register_page():
         login_user(user_to_create)
         return redirect(url_for('home_page'))
 
-    if form.errors != {}:
+    if form.errors != {}:  # if there are errors from the validators
         for err_msg in form.errors.values():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
-
     return render_template('login.html', form=form)
-
 
 # Initialize database if not already created
 with app.app_context():
     db.create_all()
-
 
 if __name__ == '__main__':
     app.run(debug=True)

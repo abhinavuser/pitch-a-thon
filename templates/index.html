@@ -29,7 +29,11 @@
                         <li class="nav__item"><a href="#home" class="nav__link active-link">Discover</a></li>
                         <li class="nav__item"><a href="#about" class="nav__link">Browse</a></li>
                         <li class="nav__item"><a href="#services" class="nav__link">Delivery</a></li>
+                        {% if current_user.is_authenticated %}
+                        <li class="nav__item"><a href="{{ url_for('logout') }}" class="nav__link">Sign Out</a></li>
+                        {% else %}
                         <li class="nav__item"><a href="{{ url_for('login_page') }}" class="nav__link">Sign Up</a></li>
+                        {% endif %}
                         <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
                         <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
                     </ul>
@@ -67,7 +71,7 @@
                             Delivery Experience
                              <br> tasty food</h2>
                         <p class="about__description">Partnering food vendors list their unsold food on the app, which could range from prepared meals to bakery items or grocery products nearing their sell-by date</p>
-                        <a href="#" class="button">Explore</a>
+                        <a href="{{ url_for('menu_page') }}" class="button">Explore</a>
                     </div>
 
                     <img src="/static/styles/img/about.jpg" alt="" class="about__img">
@@ -372,7 +376,7 @@
                     </div>
 
                     <div class="contact__button">
-                        <a href="#" class="button">Contact us now</a>
+                        <a href="#contact" class="button">Contact us now</a>
                     </div>
                 </div>
             </section>
