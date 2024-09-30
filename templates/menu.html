@@ -1,54 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/styles.css') }}">
+    <title>Menu</title>
+</head>
+<body>
 
-        <!--========== BOX ICONS ==========-->
-        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+<!--========== HEADER ==========-->
+<header class="l-header" id="header">
+    <nav class="nav bd-container">
+        <a href="#" class="nav__logo"><h1>Thrift Pantry</h1></a>
 
-        <!--========== CSS ==========-->
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/css/styles.css') }}">
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+                <li class="nav__item"><a href="{{ url_for('home') }}" class="nav__link active-link">Discover</a></li>
+                <li class="nav__item"><a href="#about" class="nav__link">Browse</a></li>
+                <li class="nav__item"><a href="#services" class="nav__link">Delivery</a></li>
+                {% if current_user.is_authenticated %}
+                <li class="nav__item"><a href="{{ url_for('logout') }}" class="nav__link">Sign Out</a></li>
+                {% else %}
+                <li class="nav__item"><a href="{{ url_for('login_page') }}" class="nav__link">Sign Up</a></li>
+                {% endif %}
+                <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
+            </ul>
+        </div>
 
-        <title>Menu</title>
-    </head>
-    <body>
-        <!-- {% for mesg in get_flashed_messages() %}
-        <h1>{{ mesg }}</h1>
-        {% endfor %} -->
+        <div class="nav__toggle" id="nav-toggle">
+            <i class='bx bx-menu'></i>
+        </div>
+    </nav>
+</header>
+<!--========== HEADER ENDS ==========-->
 
-    <!--========== SCROLL TOP ==========-->
-    <a href="#" class="scrolltop" id="scroll-top">
-        <i class='bx bx-chevron-up scrolltop__icon'></i>
-    </a>
-
-    <!--========== HEADER ==========-->
-    <header class="l-header" id="header">
-        <nav class="nav bd-container">
-            <a href="#" class="nav__logo"><h1>Thrift Pantry</h1></a>
-
-            <div class="nav__menu" id="nav-menu">
-                <ul class="nav__list">
-                    <li class="nav__item"><a href="#home" class="nav__link active-link">Discover</a></li>
-                    <li class="nav__item"><a href="#about" class="nav__link">Browse</a></li>
-                    <li class="nav__item"><a href="#services" class="nav__link">Delivery</a></li>
-                    {% if current_user.is_authenticated %}
-                    <li class="nav__item"><a href="{{ url_for('logout') }}" class="nav__link">Sign Out</a></li>
-                    {% else %}
-                    <li class="nav__item"><a href="{{ url_for('login_page') }}" class="nav__link">Sign Up</a></li>
-                    {% endif %}
-                    <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
-                    <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
-                </ul>
-            </div>
-
-            <div class="nav__toggle" id="nav-toggle">
-                <i class='bx bx-menu'></i>
-            </div>
-        </nav>
-    </header>
-    <!--========== HEADER ENDS ==========-->
-<!-- ========== MENU ==========-->
 <section class="menu section bd-container" id="menu">
     <h2 class="section-title">Menu</h2>
 
@@ -56,88 +43,41 @@
     <div class="search-box">
         <button class="btn-search"><i class='bx bxs-search'></i></button>
         <input type="text" class="input-search" placeholder="Search..">
-      </div>
-    <!-- SEARCH BOX ENDS -->
+    </div>
 
-    <!-- ========== ITEMS ==========-->
+    <!-- NEW ITEM FORM FOR RESTAURANTS -->
+    {% if current_user.is_authenticated %}
+    <div class="add-item-form">
+        <h3>Add New Food Item</h3>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="text" name="item_name" placeholder="Food Name" required>
+            <input type="text" name="item_description" placeholder="Description" required>
+            <input type="number" name="item_price" placeholder="Price" required>
+            <input type="file" name="item_image" accept="image/*" required>
+            {{ add_form.hidden_tag() }}
+            {{ add_form.submit(class='button') }}
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- DISPLAY EXISTING ITEMS -->
     <div class="menu__container bd-grid">
-
         {% for item in items %}
         <div class="menu__content">
-            <!-- <img src="static/styles/img/plate1.png" alt="" class="menu__img"> -->
-            <!-- <img src="static/styles/img/{{ item.source }}"  alt="" class="menu__img" /> -->
-            <img src="{{ url_for('static', filename = 'styles/img/'+item.source) }}" alt="" class="menu__img">
-            <!-- <h3 class="menu__name">Barbecue salad</h3> -->
+            <img src="{{ url_for('static', filename='styles/img/' + item.source) }}" alt="" class="menu__img">
             <h3 class="menu__name">{{ item.name }}</h3>
-            <!-- <span class="menu__detail">Delicious dish</span> -->
-            <span class = "menu_detail"> {{ item.description }} </span>
+            <span class="menu_detail">{{ item.description }}</span>
             <span class="menu__price">₹{{ item.price }}</span>
-            <!-- <a href="#" class="button menu__button"><i class='bx bx-cart-alt'></i></a> -->
-            <form method = 'POST'>
-                {{ add_form.hidden_tag() }}
-                <input id="selected_item" name="selected_item" type="hidden" value="{{ item.name }}">
-                {{ add_form.submit(class = 'button menu__button') }}
-            </form>
-
         </div>
         {% endfor %}
-
     </div>
 </section>
-<!-- ========== MENU ENDS ==========-->
 
 <!--========== FOOTER ==========-->
-        <footer class="footer section bd-container">
-            <div class="footer__container bd-grid">
-                <div class="footer__content">
-                    <a href="#" class="footer__logo">Thrift Pantry</a>
-                    <span class="footer__description">Sustainable</span>
-                    <div>
-                        <a href="#" class="footer__social"><i class='bx bxl-facebook'></i></a>
-                        <a href="#" class="footer__social"><i class='bx bxl-instagram'></i></a>
-                        <a href="#" class="footer__social"><i class='bx bxl-twitter'></i></a>
-                    </div>
-                </div>
+<footer class="footer section bd-container">
+    <!-- Footer Content -->
+</footer>
 
-                <div class="footer__content">
-                    <h3 class="footer__title">Services</h3>
-                    <ul>
-                        <li><a href="menu.html" class="footer__link">Browse</a></li>
-                        <li><a href="menu.html" class="footer__link">Order Food</a></li>
-                        <li><a href="#" class="footer__link">Delivery</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer__content">
-                    <h3 class="footer__title">Information</h3>
-                    <ul>
-                        <li><a href="#" class="footer__link">Event</a></li>
-                        <li><a href="#" class="footer__link">Contact us</a></li>
-                        <li><a href="#" class="footer__link">Privacy policy</a></li>
-                        <li><a href="#" class="footer__link">Terms of services</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer__content">
-                    <h3 class="footer__title">Address</h3>
-                    <ul>
-                        <li>Chennai, Tamil Nadu</li>
-                        <li>031-4281-7093</li>
-                        <li>chipnxv@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-
-            <p class="footer__copy">&#169; 2024. All rights reserved</p>
-        </footer>
-        <!--========== FOOTER ENDS ==========-->
-
-<!--========== SCROLL REVEAL ==========-->
-<script src="https://unpkg.com/scrollreveal"></script>
-
-<!--========== MAIN JS ==========-->
 <script src="static/styles/js/main.js"></script>
-
-
 </body>
 </html>

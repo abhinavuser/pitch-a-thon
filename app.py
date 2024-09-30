@@ -82,16 +82,33 @@ def home_page():
 @login_required
 def menu_page():
     add_form = AddForm()
+    
     if request.method == 'POST':
-        selected_item = request.form.get('selected_item')  # get the selected item from the menu page
-        item_object = Item.query.filter_by(name=selected_item).first()
-        if item_object:
-            flash(f'You added {selected_item} to your cart!', category='success')
-        return redirect(url_for('menu_page'))
+        # Handling new item form submission
+        item_name = request.form.get('item_name')
+        item_description = request.form.get('item_description')
+        item_price = request.form.get('item_price')
+        item_image = request.files['item_image']
 
-    if request.method == 'GET':
-        items = Item.query.all()
-        return render_template('menu.html', items=items, add_form=add_form)
+        if item_name and item_description and item_price and item_image:
+            image_filename = item_image.filename
+            item_image.save(f"static/styles/img/{image_filename}")
+
+            new_item = Item(
+                name=item_name,
+                description=item_description,
+                price=int(item_price),
+                source=image_filename
+            )
+            db.session.add(new_item)
+            db.session.commit()
+            flash(f'{item_name} has been added successfully!', category='success')
+            return redirect(url_for('menu_page'))
+
+    # Display existing items
+    items = Item.query.all()
+    return render_template('menu.html', items=items, add_form=add_form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
