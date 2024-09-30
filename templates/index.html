@@ -49,6 +49,7 @@
         <main class="l-main">
             <!--========== HOME ==========-->
             <section class="home" id="home">
+                <div class="home__background"></div> <!-- Background images wrapper -->
                 <div class="home__container bd-container bd-grid">
                     <div class="home__data">
                         <h1 class="home__title">Welcome!<br>Try our food</h1>
@@ -57,8 +58,7 @@
                         <a href="{{ url_for('menu_page') }}" class="button">Delivery</a>
                         <a href="{{ url_for('menu_page') }}" class="button">Favourites</a>
                     </div>
-                    
-                    <img src="/static/styles/img/home.png" alt = "" class="home__img">
+                    <img src="/static/styles/img/home.png" alt="" class="home__img">
                 </div>
             </section>
 

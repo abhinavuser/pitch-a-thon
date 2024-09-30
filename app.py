@@ -44,10 +44,12 @@ class Item(db.Model):
     name = db.Column(db.String(30), nullable=False)
     description = db.Column(db.String(50), nullable=False)
     price = db.Column(db.Integer, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)  # New field for item quantity
     source = db.Column(db.String(30), nullable=False)
 
     def __repr__(self):
-        return f'Item({self.name}, {self.price})'
+        return f'Item({self.name}, {self.price}, {self.quantity})'
+
 
 # Flask Forms
 class RegisterForm(FlaskForm):
@@ -84,13 +86,13 @@ def menu_page():
     add_form = AddForm()
     
     if request.method == 'POST':
-        # Handling new item form submission
         item_name = request.form.get('item_name')
         item_description = request.form.get('item_description')
         item_price = request.form.get('item_price')
+        item_quantity = request.form.get('item_quantity')
         item_image = request.files['item_image']
 
-        if item_name and item_description and item_price and item_image:
+        if item_name and item_description and item_price and item_quantity and item_image:
             image_filename = item_image.filename
             item_image.save(f"static/styles/img/{image_filename}")
 
@@ -98,6 +100,7 @@ def menu_page():
                 name=item_name,
                 description=item_description,
                 price=int(item_price),
+                quantity=int(item_quantity),
                 source=image_filename
             )
             db.session.add(new_item)
@@ -105,9 +108,17 @@ def menu_page():
             flash(f'{item_name} has been added successfully!', category='success')
             return redirect(url_for('menu_page'))
 
-    # Display existing items
     items = Item.query.all()
     return render_template('menu.html', items=items, add_form=add_form)
+
+@app.route('/remove_item/<int:item_id>', methods=['POST'])
+@login_required
+def remove_item(item_id):
+    item = Item.query.get_or_404(item_id)
+    db.session.delete(item)
+    db.session.commit()
+    flash(f'{item.name} has been removed.', category='success')
+    return redirect(url_for('menu_page'))
 
 
 @app.route('/login', methods=['GET', 'POST'])

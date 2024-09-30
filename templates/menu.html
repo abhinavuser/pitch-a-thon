@@ -5,18 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/styles.css') }}">
+    <style>
+        /* Form Styling */
+        .add-item-form {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-item-form h3 {
+            margin-bottom: 15px;
+        }
+
+        .add-item-form input[type="text"],
+        .add-item-form input[type="number"],
+        .add-item-form input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .add-item-form .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-item-form .button:hover {
+            background-color: #45a049;
+        }
+        .menu__content .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .menu__content .remove-btn:hover {
+            background-color: #e53935;
+        }
+
+    </style>
     <title>Menu</title>
 </head>
 <body>
 
-<!--========== HEADER ==========-->
 <header class="l-header" id="header">
     <nav class="nav bd-container">
         <a href="#" class="nav__logo"><h1>Thrift Pantry</h1></a>
 
         <div class="nav__menu" id="nav-menu">
             <ul class="nav__list">
-                <li class="nav__item"><a href="{{ url_for('home') }}" class="nav__link active-link">Discover</a></li>
+                <li class="nav__item"><a href="{{ url_for('home_page') }}" class="nav__link active-link">Discover</a></li>
                 <li class="nav__item"><a href="#about" class="nav__link">Browse</a></li>
                 <li class="nav__item"><a href="#services" class="nav__link">Delivery</a></li>
                 {% if current_user.is_authenticated %}
@@ -34,7 +86,6 @@
         </div>
     </nav>
 </header>
-<!--========== HEADER ENDS ==========-->
 
 <section class="menu section bd-container" id="menu">
     <h2 class="section-title">Menu</h2>
@@ -45,14 +96,15 @@
         <input type="text" class="input-search" placeholder="Search..">
     </div>
 
-    <!-- NEW ITEM FORM FOR RESTAURANTS -->
+    <!-- ADD NEW ITEM FORM FOR RESTAURANTS -->
     {% if current_user.is_authenticated %}
     <div class="add-item-form">
         <h3>Add New Food Item</h3>
         <form method="POST" enctype="multipart/form-data">
             <input type="text" name="item_name" placeholder="Food Name" required>
             <input type="text" name="item_description" placeholder="Description" required>
-            <input type="number" name="item_price" placeholder="Price" required>
+            <input type="number" name="item_price" placeholder="Price (₹)" min="1" required>
+            <input type="number" name="item_quantity" placeholder="Number of Items" min="1" required>
             <input type="file" name="item_image" accept="image/*" required>
             {{ add_form.hidden_tag() }}
             {{ add_form.submit(class='button') }}
@@ -68,12 +120,17 @@
             <h3 class="menu__name">{{ item.name }}</h3>
             <span class="menu_detail">{{ item.description }}</span>
             <span class="menu__price">₹{{ item.price }}</span>
+            <span class="menu__quantity">Quantity: {{ item.quantity }}</span>
+            <!-- Remove button only for restaurants -->
+            <form method="POST" action="{{ url_for('remove_item', item_id=item.id) }}">
+                <button class="remove-btn" type="submit">Remove</button>
+            </form>
         </div>
         {% endfor %}
     </div>
 </section>
 
-<!--========== FOOTER ==========-->
+<!-- FOOTER -->
 <footer class="footer section bd-container">
     <!-- Footer Content -->
 </footer>

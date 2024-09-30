@@ -266,6 +266,45 @@ img{
 }
 
 /*========== HOME ==========*/
+.home {
+  position: relative;
+  overflow: hidden; /* Prevent content overflow */
+  height: 100vh; /* Adjust as needed */
+  color: white; /* Change text color if needed */
+}
+
+.home__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/static/styles/img/slide.jpg'); 
+  background-size: cover;
+  background-position: center;
+  animation: slideBackground 3s infinite; /* Change duration as needed */
+}
+
+@keyframes slideBackground {
+  0% {
+      background-position: 0% 0%;
+  }
+  25% {
+      background-position: 100% 0%;
+  }
+  50% {
+      background-position: 100% 100%;
+  }
+  75% {
+      background-position: 0% 100%;
+  }
+  100% {
+      background-position: 0% 0%;
+  }
+}
+
+/* Adjust other styles if needed */
+
 .home__container{
   height: calc(100vh - var(--header-height));
   align-content: center;
