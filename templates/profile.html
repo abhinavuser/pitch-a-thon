@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Profile</title>
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/style-login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/styles.css') }}">
+    <style>
+        
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in;
+        }
+        .profile-details {
+            margin-bottom: 20px;
+        }
+        .profile-details p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .verification-section {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+        }
+        .verification-section h2 {
+            margin-bottom: 15px;
+            color: #388e3c;
+        }
+        
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="scrolltop" id="scroll-top">
+        <i class='bx bx-chevron-up scrolltop__icon'></i>
+    </a>
+    <header class="l-header" id="header">
+        <nav class="nav bd-container">
+            <a href="#" class="nav__logo"><h1>Thrift Pantry</h1></a>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="{{ url_for('home_page') }}" class="nav__link active-link">Discover</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link">Browse</a></li>
+                    <li class="nav__item"><a href="#services" class="nav__link">Delivery</a></li>
+                    {% if current_user.is_authenticated %}
+                    <li class="nav__item"><a href="{{ url_for('logout') }}" class="nav__link">Sign Out</a></li>
+                    <li class="nav__item"><a href="{{ url_for('profile_page') }}" class="nav__link">Profile</a></li>
+                    {% else %}
+                    <li class="nav__item"><a href="{{ url_for('login_page') }}" class="nav__link">Sign Up</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                    {% endif %}
+                    <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
+                </ul>
+            </div>
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-menu'></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="profile-container">
+        <h1>Welcome, {{ current_user.storename }}</h1>
+        <div class="profile-details">
+            <p><strong>Store Name:</strong> {{ current_user.storename }}</p>
+            <p><strong>Store Type:</strong> {{ current_user.store_type }}</p>
+            <p><strong>Address:</strong> {{ current_user.address }}</p>
+            <p><strong>Phone Number:</strong> {{ current_user.phone_number }}</p>
+        </div>
+
+        <div class="verification-section">
+            <h2>Verification Details</h2>
+            <p><strong>FSSAI License:</strong> {{ current_user.fssai_license }}</p>
+            <p><strong>PAN Card Number:</strong> {{ current_user.pan_card_number }}</p>
+        </div>
+
+        <div class="menu-section">
+            <h2>Store Menu</h2>
+            <ul>
+                {% for item in current_user.menu %}
+                    <li>{{ item.name }} - ₹{{ item.price }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer section bd-container">
+        <div class="footer__container bd-grid">
+            <div class="footer__content">
+                <a href="#" class="footer__logo">Thrift Pantry</a>
+                <span class="footer__description">Sustainable</span>
+                <div>
+                    <a href="#" class="footer__social"><i class='bx bxl-facebook'></i></a>
+                    <a href="#" class="footer__social"><i class='bx bxl-instagram'></i></a>
+                    <a href="#" class="footer__social"><i class='bx bxl-twitter'></i></a>
+                </div>
+            </div>
+            <div class="footer__content">
+                <h3 class="footer__title">Services</h3>
+                <ul>
+                    <li><a href="menu.html" class="footer__link">Browse</a></li>
+                    <li><a href="menu.html" class="footer__link">Order Food</a></li>
+                    <li><a href="#" class="footer__link">Delivery</a></li>
+                </ul>
+            </div>
+            <div class="footer__content">
+                <h3 class="footer__title">Information</h3>
+                <ul>
+                    <li><a href="#" class="footer__link">Event</a></li>
+                    <li><a href="#" class="footer__link">Contact us</a></li>
+                    <li><a href="#" class="footer__link">Privacy policy</a></li>
+                    <li><a href="#" class="footer__link">Terms of services</a></li>
+                </ul>
+            </div>
+            <div class="footer__content">
+                <h3 class="footer__title">Address</h3>
+                <ul>
+                    <li>Chennai, Tamil Nadu</li>
+                    <li>031-4281-7093</li>
+                    <li>chipnxv@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <p class="footer__copy">&#169; 2024. All rights reserved</p>
+    </footer>
+
+    <div class="loader-container">
+        <img src="/static/styles/img/loader.gif" alt="">
+    </div> 
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="/static/styles/js/main.js"></script>
+</body>
+</html>

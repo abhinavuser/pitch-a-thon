@@ -5,59 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/styles.css') }}">
-    <style>
-        /* Form Styling */
-        .add-item-form {
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .add-item-form h3 {
-            margin-bottom: 15px;
-        }
-
-        .add-item-form input[type="text"],
-        .add-item-form input[type="number"],
-        .add-item-form input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .add-item-form .button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .add-item-form .button:hover {
-            background-color: #45a049;
-        }
-        .menu__content .remove-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .menu__content .remove-btn:hover {
-            background-color: #e53935;
-        }
-
-    </style>
     <title>Menu</title>
 </head>
 <body>
@@ -65,7 +12,6 @@
 <header class="l-header" id="header">
     <nav class="nav bd-container">
         <a href="#" class="nav__logo"><h1>Thrift Pantry</h1></a>
-
         <div class="nav__menu" id="nav-menu">
             <ul class="nav__list">
                 <li class="nav__item"><a href="{{ url_for('home_page') }}" class="nav__link active-link">Discover</a></li>
@@ -73,68 +19,227 @@
                 <li class="nav__item"><a href="#services" class="nav__link">Delivery</a></li>
                 {% if current_user.is_authenticated %}
                 <li class="nav__item"><a href="{{ url_for('logout') }}" class="nav__link">Sign Out</a></li>
+                <li class="nav__item"><a href="{{ url_for('profile_page') }}" class="nav__link">Profile</a></li>
                 {% else %}
                 <li class="nav__item"><a href="{{ url_for('login_page') }}" class="nav__link">Sign Up</a></li>
-                {% endif %}
                 <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                {% endif %}
                 <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
             </ul>
         </div>
-
         <div class="nav__toggle" id="nav-toggle">
             <i class='bx bx-menu'></i>
         </div>
     </nav>
 </header>
 
+<!--========== MENU ==========-->
 <section class="menu section bd-container" id="menu">
+    <span class="section-subtitle">Restaurant</span>
     <h2 class="section-title">Menu</h2>
 
-    <!-- SEARCH BOX -->
-    <div class="search-box">
-        <button class="btn-search"><i class='bx bxs-search'></i></button>
-        <input type="text" class="input-search" placeholder="Search..">
-    </div>
-
-    <!-- ADD NEW ITEM FORM FOR RESTAURANTS -->
-    {% if current_user.is_authenticated %}
-    <div class="add-item-form">
-        <h3>Add New Food Item</h3>
-        <form method="POST" enctype="multipart/form-data">
-            <input type="text" name="item_name" placeholder="Food Name" required>
-            <input type="text" name="item_description" placeholder="Description" required>
-            <input type="number" name="item_price" placeholder="Price (₹)" min="1" required>
-            <input type="number" name="item_quantity" placeholder="Number of Items" min="1" required>
-            <input type="file" name="item_image" accept="image/*" required>
-            {{ add_form.hidden_tag() }}
-            {{ add_form.submit(class='button') }}
-        </form>
-    </div>
-    {% endif %}
-
-    <!-- DISPLAY EXISTING ITEMS -->
     <div class="menu__container bd-grid">
-        {% for item in items %}
         <div class="menu__content">
-            <img src="{{ url_for('static', filename='styles/img/' + item.source) }}" alt="" class="menu__img">
-            <h3 class="menu__name">{{ item.name }}</h3>
-            <span class="menu_detail">{{ item.description }}</span>
-            <span class="menu__price">₹{{ item.price }}</span>
-            <span class="menu__quantity">Quantity: {{ item.quantity }}</span>
-            <!-- Remove button only for restaurants -->
-            <form method="POST" action="{{ url_for('remove_item', item_id=item.id) }}">
-                <button class="remove-btn" type="submit">Remove</button>
-            </form>
+            <img src="https://github.com/Samaelish/Website-Restaurant-Light-Dark-Mode/blob/main/assets/img/plate1.png?raw=true" alt="" class="menu__img">
+            <h3 class="menu__name">Barbecue salad</h3>
+            <span class="menu__detail">Delicious dish</span>
+            <span class="menu__preci">$22.00</span>
+            <button class="button menu__button add-to-cart" data-name="Barbecue salad" data-price="15.00"><i class='bx bx-cart-alt'></i></button>
         </div>
-        {% endfor %}
+
+        <div class="menu__content">
+            <img src="https://github.com/Samaelish/Website-Restaurant-Light-Dark-Mode/blob/main/assets/img/plate2.png?raw=true" alt="" class="menu__img">
+            <h3 class="menu__name">Salad with fish</h3>
+            <span class="menu__detail">Delicious dish</span>
+            <span class="menu__preci">$12.00</span>
+            <button class="button menu__button add-to-cart" data-name="Salad with fish" data-price="15.00"><i class='bx bx-cart-alt'></i></button>
+        </div>
+        
+        <div class="menu__content">
+            <img src="https://github.com/Samaelish/Website-Restaurant-Light-Dark-Mode/blob/main/assets/img/plate3.png?raw=true" alt="" class="menu__img">
+            <h3 class="menu__name">Spinach salad</h3>
+            <span class="menu__detail">Delicious dish</span>
+            <span class="menu__preci">$9.50</span>
+            <button class="button menu__button add-to-cart" data-name="Spinach salad" data-price="15.00"><i class='bx bx-cart-alt'></i></button>
+        </div>
+
+        <div class="menu__content">
+            <img src="https://github.com/Samaelish/Website-Restaurant-Light-Dark-Mode/blob/main/assets/img/plate1.png?raw=true" alt="" class="menu__img">
+            <h3 class="menu__name">Tandoori salad</h3>
+            <span class="menu__detail">Delicious dish</span>
+            <span class="menu__preci">$22.00</span>
+            <button class="button menu__button add-to-cart" data-name="Tandoori salad" data-price="15.00"><i class='bx bx-cart-alt'></i></button>
+        </div>
+
+        <div class="menu__content">
+            <img src="https://github.com/Samaelish/Website-Restaurant-Light-Dark-Mode/blob/main/assets/img/plate2.png?raw=true" alt="" class="menu__img">
+            <h3 class="menu__name">Fish and Chips</h3>
+            <span class="menu__detail">Delicious dish</span>
+            <span class="menu__preci">$12.00</span>
+            <button class="button menu__button add-to-cart" data-name="Fish and Chips" data-price="15.00"><i class='bx bx-cart-alt'></i></button>
+        </div>
+        
+        <div class="menu__content">
+            <img src="https://github.com/Samaelish/Website-Restaurant-Light-Dark-Mode/blob/main/assets/img/plate3.png?raw=true" alt="" class="menu__img">
+            <h3 class="menu__name">Spinach Soup</h3>
+            <span class="menu__detail">Delicious dish</span>
+            <span class="menu__preci">$9.50</span>
+            <button class="button menu__button add-to-cart" data-name="Spinach Soup" data-price="15.00"><i class='bx bx-cart-alt'></i></button>
+        </div>
+
+        <div class="menu__content">
+            <img src="/static/styles/img/chicken.png" alt="" class="menu__img">
+            <h3 class="menu__name">Chicken Salad</h3>
+            <span class="menu__detail">Delicious dish</span>
+            <span class="menu__preci">$15.00</span>
+            <button class="button menu__button add-to-cart" data-name="Chicken Salad" data-price="15.00"><i class='bx bx-cart-alt'></i></button>
+        </div>
+
+        <div class="menu__content">
+            <img src="/static/styles/img/burger.png" alt="" class="menu__img">
+            <h3 class="menu__name">Cheese Burger</h3>
+            <span class="menu__detail">Delicious dish</span>
+            <span class="menu__preci">$22.00</span>
+            <button class="button menu__button add-to-cart" data-name="Cheese Burger" data-price="15.00"><i class='bx bx-cart-alt'></i></button>
+        </div>
+        
+        <div class="menu__content">
+            <img src="/static/styles/img/pizza.png" alt="" class="menu__img">
+            <h3 class="menu__name">Double Cheese Margherita</h3>
+            <span class="menu__detail">Delicious dish</span>
+            <span class="menu__preci">$10.00</span>
+            <button class="button menu__button add-to-cart" data-name="ouble Cheese Margherita" data-price="15.00"><i class='bx bx-cart-alt'></i></button>
+        </div>
     </div>
 </section>
 
-<!-- FOOTER -->
+<!--========== SURPRISE BOX MODAL ==========-->
+<section id="surprise-box" class="bd-container">
+    <h2>Surprise Box</h2>
+    <ul id="cart-items"></ul>
+    <p id="total-price">Total Price: $<span>0.00</span></p>
+    <p id="discounted-price">Discounted Price: $<span>0.00</span></p>
+    <button id="checkout-button">Checkout</button>
+</section>
+
 <footer class="footer section bd-container">
-    <!-- Footer Content -->
+    <div class="footer__container bd-grid">
+        <div class="footer__content">
+            <a href="#" class="footer__logo">Thrift Pantry</a>
+            <span class="footer__description">Sustainable</span>
+            <div>
+                <a href="#" class="footer__social"><i class='bx bxl-facebook'></i></a>
+                <a href="#" class="footer__social"><i class='bx bxl-instagram'></i></a>
+                <a href="#" class="footer__social"><i class='bx bxl-twitter'></i></a>
+            </div>
+        </div>
+
+        <div class="footer__content">
+            <h3 class="footer__title">Services</h3>
+            <ul>
+                <li><a href="menu.html" class="footer__link">Browse</a></li>
+                <li><a href="menu.html" class="footer__link">Order Food</a></li>
+                <li><a href="#" class="footer__link">Delivery</a></li>
+            </ul>
+        </div>
+
+        <div class="footer__content">
+            <h3 class="footer__title">Information</h3>
+            <ul>
+                <li><a href="#" class="footer__link">Event</a></li>
+                <li><a href="#" class="footer__link">Contact us</a></li>
+                <li><a href="#" class="footer__link">Privacy policy</a></li>
+                <li><a href="#" class="footer__link">Terms of services</a></li>
+            </ul>
+        </div>
+
+        <div class="footer__content">
+            <h3 class="footer__title">Address</h3>
+            <ul>
+                <li>Chennai, Tamil Nadu</li>
+                <li>031-4281-7093</li>
+                <li>chipnxv@gmail.com</li>
+            </ul>
+        </div>
+    </div>
+
+    <p class="footer__copy">&#169; 2024. All rights reserved</p>
 </footer>
+<!--========== FOOTER ENDS ==========-->
+
+
+<!--========== LOADER ==========-->
+<div class="loader-container">
+    <img src="/static/styles/img/loader.gif" alt="">
+</div> 
+
+<!--========== SCROLL REVEAL ==========-->
+<script src="https://unpkg.com/scrollreveal"></script>
 
 <script src="static/styles/js/main.js"></script>
+<script>
+    let cart = [];
+    let discountRate = 0.50;
+
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const name = this.getAttribute('data-name');
+            const price = parseFloat(this.getAttribute('data-price'));
+            
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+
+            updateCart();
+        });
+    });
+
+    function updateCart() {
+        const cartItems = document.getElementById('cart-items');
+        cartItems.innerHTML = '';
+
+        let totalPrice = 0;
+
+        cart.forEach(item => {
+            totalPrice += item.price * item.quantity;
+            cartItems.innerHTML += `<li>${item.name} - $${item.price} x ${item.quantity} 
+            <button onclick="removeFromCart('${item.name}')">Remove</button></li>`;
+        });
+
+        const discountedPrice = totalPrice * (1 - discountRate);
+        document.getElementById('total-price').querySelector('span').textContent = totalPrice.toFixed(2);
+        document.getElementById('discounted-price').querySelector('span').textContent = discountedPrice.toFixed(2);
+    }
+
+    function removeFromCart(name) {
+        cart = cart.filter(item => item.name !== name);
+        updateCart();
+    }
+
+    document.getElementById('checkout-button').addEventListener('click', function() {
+        const data = {
+            items: cart,
+            total: document.getElementById('total-price').querySelector('span').textContent,
+            discounted: document.getElementById('discounted-price').querySelector('span').textContent,
+        };
+
+        fetch('/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Order placed successfully!');
+            cart = [];
+            updateCart();
+        });
+    });
+</script>
 </body>
 </html>

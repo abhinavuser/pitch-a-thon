@@ -9,6 +9,8 @@
       src="https://kit.fontawesome.com/64d58efce2.js"
       crossorigin="anonymous"
     ></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/style-login.css') }}">
@@ -35,11 +37,11 @@
           <form method="POST" action="{{ url_for('login_page') }}" class="sign-in-form">
             {{ forml.hidden_tag() }}
             <h2 class="title">Sign in</h2>
-            <div class="input-field">
+            <div class="input-fieldd">
               <i class="fas fa-user"></i>
-              {{ forml.username(placeholder="Username") }}
+              {{ forml.storename(placeholder="Store Name") }}
             </div>
-            <div class="input-field">
+            <div class="input-fieldd">
               <i class="fas fa-lock"></i>
               {{ forml.password(placeholder="Password") }}
             </div>
@@ -48,18 +50,19 @@
             <p class="social-text">Or Sign in with social platforms</p>
             <div class="social-media">
               <a href="#" class="social-icon">
-                <i class="fab fa-facebook-f"></i>
+                  <i class="fab fa-facebook-f"></i>
               </a>
               <a href="#" class="social-icon">
-                <i class="fab fa-twitter"></i>
+                  <i class="fab fa-twitter"></i>
               </a>
               <a href="#" class="social-icon">
-                <i class="fab fa-google"></i>
+                  <i class="fab fa-google"></i>
               </a>
               <a href="#" class="social-icon">
-                <i class="fab fa-linkedin-in"></i>
+                  <i class="fab fa-linkedin-in"></i>
               </a>
-            </div>
+          </div>
+          
           </form>
           <!-- LOGIN FORM ENDS -->
 
@@ -67,48 +70,67 @@
           <form method="POST" action="{{ url_for('register_page') }}" class="sign-up-form">
             {{ form.hidden_tag() }}
             <h2 class="title">Sign up</h2>
+        
+            <div class="input-field">
+                <i class="fas fa-user"></i>
+                {{ form.storename(placeholder="Store Name") }}
+            </div>
+        
+            <!-- Store Type dropdown trigger -->
+            <div class="input-field">
+              <i class="fas fa-list"></i>
+              <select id="store-type-select" name="store_type" class="dropdown">
+                  <option value="" disabled selected>Select Store Type</option>
+                  <option value="Restaurant">Restaurant</option>
+                  <option value="Cafe">Cafe</option>
+                  <option value="Buffet restaurant">Buffet restaurant</option>
+                  <option value="Hotel">Hotel</option>
+                  <option value="Bakery">Bakery</option>
+                  <option value="Supermarket">Supermarket</option>
+                  <option value="Fruit & vegetable store">Fruit & vegetable store</option>
+                  <option value="Sweets and Savouries">Sweets and Savouries</option>
+              </select>
+          </div>
+          
 
+        
             <div class="input-field">
-              <i class="fas fa-user"></i>
-              {{ form.username(placeholder="Username") }}
+                <i class="fas fa-map-marker-alt"></i>
+                {{ form.address(placeholder="Address") }}
+            </div>
+        
+            <div class="input-field">
+                <i class="fas fa-mobile-alt"></i>
+                {{ form.phone_number(placeholder="Phone Number") }}
+            </div>
+        
+            <div class="input-field">
+                <i class="fas fa-lock"></i>
+                {{ form.password1(placeholder="Password") }}
             </div>
             <div class="input-field">
-              <i class="fas fa-user"></i>
-              {{ form.fullname(placeholder="Full Name") }}
+                <i class="fas fa-lock"></i>
+                {{ form.password2(placeholder="Confirm Password") }}
             </div>
-            <div class="input-field">
-              <i class="fas fa-map-marker-alt"></i>
-              {{ form.address(placeholder="Address") }}
-            </div>
-            <div class="input-field">
-              <i class="fas fa-mobile-alt"></i>
-              {{ form.phone_number(placeholder="Phone Number") }}
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              {{ form.password1(placeholder="Password") }}
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              {{ form.password2(placeholder="Confirm Password") }}
-            </div>
+        
             {{ form.submit(class='btn') }}
 
             <p class="social-text">Or Sign up with social platforms</p>
             <div class="social-media">
               <a href="#" class="social-icon">
-                <i class="fab fa-facebook-f"></i>
+                  <i class="fab fa-facebook-f"></i>
               </a>
               <a href="#" class="social-icon">
-                <i class="fab fa-twitter"></i>
+                  <i class="fab fa-twitter"></i>
               </a>
               <a href="#" class="social-icon">
-                <i class="fab fa-google"></i>
+                  <i class="fab fa-google"></i>
               </a>
               <a href="#" class="social-icon">
-                <i class="fab fa-linkedin-in"></i>
+                  <i class="fab fa-linkedin-in"></i>
               </a>
-            </div>
+          </div>
+          
           </form>
           <!-- REGISTRATION FORM ENDS -->
         </div>
@@ -147,6 +169,22 @@
 
     <!-- JAVASCRIPT -->
     <script src="{{ url_for('static', filename='styles/js/login.js') }}"></script>
+    <script>
+     // Toggle dropdown visibility inside the input field
+document.getElementById("dropdown-trigger").addEventListener("click", function() {
+  const parentField = this.parentElement;
+  parentField.classList.toggle("active");
+});
+
+// When selecting an option, update the trigger text to show the selected value
+document.getElementById("store-type-select").addEventListener("change", function() {
+  const selectedOption = this.options[this.selectedIndex].text;
+  document.getElementById("dropdown-trigger").textContent = selectedOption;
+  this.parentElement.parentElement.classList.remove("active");  // Hide the dropdown after selection
+});
+
+  </script>
+  
 
   </body>
 </html>

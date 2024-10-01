@@ -65,8 +65,7 @@ form.sign-in-form {
   color: #444;
   margin-bottom: 10px;
 }
-
-.input-field {
+.input-fieldd {
   max-width: 380px;
   width: 100%;
   background-color: #f0f0f0;
@@ -79,13 +78,76 @@ form.sign-in-form {
   position: relative;
 }
 
-.input-field i {
+.input-fieldd i {
   text-align: center;
   line-height: 55px;
   color: #acacac;
   transition: 0.5s;
   font-size: 1.1rem;
 }
+
+.input-fieldd input {
+  background: none;
+  outline: none;
+  border: none;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.input-fieldd input::placeholder {
+  color: #aaa;
+  font-weight: 500;
+}
+
+.input-field {
+  max-width: 380px;
+  width: 100%;
+  background-color: #f0f0f0;
+  margin: 10px 0;
+  height: 55px;
+  border-radius: 55px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  position: relative;
+}
+
+.input-field i {
+  text-align: center;
+  line-height: 55px;
+  color: #acacac;
+  transition: 0.5s;
+  font-size: 1.1rem;
+  margin-right: 10px;
+}
+
+.input-field select.dropdown {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: #333;
+  appearance: none;
+  padding-left: 10px;
+  border-radius: 55px;
+  outline: none;
+}
+
+
+select.dropdown option {
+  color: #333;
+}
+
+/* Remove default focus outline and box-shadow */
+select:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+
 
 .input-field input {
   background: none;
@@ -419,4 +481,23 @@ a.fp-link:hover{
     bottom: 28%;
     left: 50%;
   }
+}
+
+
+
+
+/* Profile Page Styling */
+.profile-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 10px 0;
 }
