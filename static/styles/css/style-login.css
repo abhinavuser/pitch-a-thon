@@ -485,19 +485,3 @@ a.fp-link:hover{
 
 
 
-
-/* Profile Page Styling */
-.profile-container {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-
-.profile-details p {
-  font-size: 18px;
-  line-height: 1.6;
-  margin: 10px 0;
-}

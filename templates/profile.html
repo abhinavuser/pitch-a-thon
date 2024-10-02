@@ -5,36 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Store Profile</title>
     <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/style-login.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/styles.css') }}">
     <style>
         
         .profile-container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background: white;
+            background-color: var(--body-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin: 40px 40px;
+            padding: 30px;
+            max-width: 100%;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-header h1 {
+            color: var(--title-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .profile-header p {
+            color: var(--title-color);
+            font-size: 1.2em;
+        }
+
+        .profile-details, .verification-section, .menu-section {
+            background-color: var(--container-color);
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.5s ease-in;
+            padding: 20px;
+            margin-bottom: 30px;
         }
-        .profile-details {
-            margin-bottom: 20px;
-        }
-        .profile-details p {
-            margin: 10px 0;
-            font-size: 18px;
-        }
-        .verification-section {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #e8f5e9;
-            border: 1px solid #c8e6c9;
-            border-radius: 5px;
-        }
-        .verification-section h2 {
+
+        .profile-details h2, .verification-section h2, .menu-section h2 {
+            color: var(--title-color);
             margin-bottom: 15px;
-            color: #388e3c;
+        }
+
+        .profile-details p, .verification-section p {
+            margin: 10px 0;
+        }
+
+        .menu-item {
+            background-color: var(--container-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item h3 {
+            color: var(--title-color);
+        }
+
+        .menu-item .price {
+            color: var(--title-color);
+            font-weight: bold;
         }
         
         
@@ -76,30 +113,47 @@
         </nav>
     </header>
 
-    <div class="profile-container">
-        <h1>Welcome, {{ current_user.storename }}</h1>
-        <div class="profile-details">
-            <p><strong>Store Name:</strong> {{ current_user.storename }}</p>
-            <p><strong>Store Type:</strong> {{ current_user.store_type }}</p>
-            <p><strong>Address:</strong> {{ current_user.address }}</p>
-            <p><strong>Phone Number:</strong> {{ current_user.phone_number }}</p>
-        </div>
+    <main class="container">
+        <div class="profile-container">
+            <div class="profile-header">
+                <h1>{{ current_user.storename }}</h1>
+                <p>{{ current_user.store_type }}</p>
+            </div>
 
-        <div class="verification-section">
-            <h2>Verification Details</h2>
-            <p><strong>FSSAI License:</strong> {{ current_user.fssai_license }}</p>
-            <p><strong>PAN Card Number:</strong> {{ current_user.pan_card_number }}</p>
-        </div>
+            <div class="profile-details">
+                <h2>Store Details</h2>
+                <p><strong>Address:</strong>{{ current_user.address }}</p>
+                <p><strong>Phone Number:</strong>{{ current_user.phone_number }}</p>
+                <p><strong>Store Type:</strong> Sustainable Restaurant</p>
+            </div>
 
-        <div class="menu-section">
-            <h2>Store Menu</h2>
-            <ul>
-                {% for item in current_user.menu %}
-                    <li>{{ item.name }} - ₹{{ item.price }}</li>
-                {% endfor %}
-            </ul>
+            <div class="verification-section">
+                <h2>Verification Details</h2>
+                <p><strong>FSSAI License:</strong> 12345678901234</p>
+                <p><strong>PAN Card Number:</strong> ABCDE1234F</p>
+            </div>
+
+            <div class="menu-section">
+                <h2>Our Menu</h2>
+                <div class="menu-item">
+                    <h3>Green Goddess Bowl</h3>
+                    <span class="price">₹250</span>
+                </div>
+                <div class="menu-item">
+                    <h3>Sustainable Sushi Roll</h3>
+                    <span class="price">₹300</span>
+                </div>
+                <div class="menu-item">
+                    <h3>Zero-Waste Zucchini Pasta</h3>
+                    <span class="price">₹200</span>
+                </div>
+                <div class="menu-item">
+                    <h3>Rescued Vegetable Curry</h3>
+                    <span class="price">₹180</span>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
 
     <footer class="footer section bd-container">
         <div class="footer__container bd-grid">
