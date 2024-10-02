@@ -10,6 +10,7 @@ from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 
+
 import json
 
 db = SQLAlchemy()
@@ -140,34 +141,42 @@ def checkout():
     if not data:
         return jsonify({'error': 'No data provided'}), 400
 
+    # For demo purposes, we'll log the data to the console. You can save this data to your database.
+    print(f"Checkout data: {data}")
+
     # Save the order information into the database
     new_order = SurpriseBox(
         user_id=current_user.id,
         store_name=current_user.storename,
         store_type=current_user.store_type,
         store_location=current_user.address,
-        items=json.dumps(data['items'])  # Ensure items are stored as JSON
+        items=json.dumps(data['items'])  # JSON format for items
     )
     db.session.add(new_order)
     db.session.commit()
 
-    return jsonify({'message': 'Order placed successfully!'})
+    return jsonify({'message': 'Order placed successfully!'}), 201
 
 
 
-@app.route('/api/surprise_boxes', methods=['GET'])
-def get_surprise_boxes():
-    boxes = SurpriseBox.query.all()
+
+@app.route('/api/surprise_boxes/current_store', methods=['GET'])
+@login_required
+def get_surprise_boxes_for_current_store():
+    boxes = SurpriseBox.query.filter_by(user_id=current_user.id).all()
     box_list = [
         {
             "store_name": box.store_name,
             "store_type": box.store_type,
             "store_location": box.store_location,
-            "items": json.loads(box.items)  # Deserialize the JSON back to a list
+            "items": json.loads(box.items),  # Convert JSON back to a list
+            "total_price": sum(item['price'] for item in json.loads(box.items))  # Calculate total price
         }
         for box in boxes
     ]
     return jsonify(box_list)
+
+
 
 
 @app.route('/register', methods=['GET', 'POST'])

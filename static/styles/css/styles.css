@@ -194,7 +194,7 @@ img{
 }
 
 .nav__logo{
-  color: #696969;
+  color: var(--title-color);
   font-family: 'Dancing Script';
   font-size: var(--h1-font-size);
   /*line-height: 160px;*/
@@ -1031,8 +1031,17 @@ tr:hover {
   background-color: var(--container-color);
   padding: 20px;
   margin: 20px;
+  justify-content: center;
   border-radius: 10px;
 }
+
 #cart-items {
   list-style: none;
+}
+
+#surprise-boxes{
+  background-color: var(--container-color);
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
 }
