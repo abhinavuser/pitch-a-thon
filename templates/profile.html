@@ -95,7 +95,7 @@
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
                     <li class="nav__item"><a href="{{ url_for('home_page') }}" class="nav__link active-link">Discover</a></li>
-                    <li class="nav__item"><a href="#about" class="nav__link">Browse</a></li>
+                    <li class="nav__item"><a href="{{ url_for('menu_page') }}" class="nav__link">Browse</a></li>
                     <li class="nav__item"><a href="#services" class="nav__link">Delivery</a></li>
                     {% if current_user.is_authenticated %}
                     <li class="nav__item"><a href="{{ url_for('logout') }}" class="nav__link">Sign Out</a></li>
